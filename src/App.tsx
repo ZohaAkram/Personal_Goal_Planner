@@ -57,26 +57,125 @@ const initialInput: CalculatorInput = {
   targetMonths: 36
 };
 
+type NumericField = Exclude<keyof CalculatorInput, "goalName">;
+type NumericInputState = Record<NumericField, string>;
+
+const MAX_MONEY_INPUT = 1_000_000_000_000;
+const MAX_RATE_INPUT = 100;
+const MAX_TARGET_MONTHS = 600;
+
 function numberValue(value: string): number {
   return Number(value.replace(/,/g, "")) || 0;
 }
 
+function initialNumericInputs(input: CalculatorInput): NumericInputState {
+  return {
+    goalAmount: String(input.goalAmount),
+    currentSavings: String(input.currentSavings),
+    monthlyIncome: String(input.monthlyIncome),
+    monthlyExpenses: String(input.monthlyExpenses),
+    annualRaiseRate: String(input.annualRaiseRate),
+    annualInflationRate: String(input.annualInflationRate),
+    targetMonths: String(input.targetMonths)
+  };
+}
+
+function cleanNumberText(value: string): string {
+  return value.replace(/,/g, "").trim();
+}
+
+function parseInputValue(value: string): number {
+  const cleaned = cleanNumberText(value);
+  return cleaned === "" ? 0 : Number(cleaned);
+}
+
+function validateNumber(
+  value: string,
+  options: { label: string; required?: boolean; min?: number; max?: number; allowZero?: boolean }
+): string | null {
+  const cleaned = cleanNumberText(value);
+  if (cleaned === "") {
+    return options.required ? `${options.label} is required.` : null;
+  }
+
+  const parsed = Number(cleaned);
+  if (!Number.isFinite(parsed)) {
+    return `${options.label} must be a number.`;
+  }
+
+  if (parsed < (options.min ?? 0)) {
+    return `${options.label} cannot be negative.`;
+  }
+
+  if (options.allowZero === false && parsed === 0) {
+    return `${options.label} must be more than 0.`;
+  }
+
+  if (options.max !== undefined && parsed > options.max) {
+    return `${options.label} is too large.`;
+  }
+
+  return null;
+}
+
+function getValidationErrors(values: NumericInputState): Partial<Record<NumericField, string>> {
+  const errors: Partial<Record<NumericField, string>> = {};
+  const rules: Record<NumericField, Parameters<typeof validateNumber>[1]> = {
+    goalAmount: { label: "Price today", required: true, max: MAX_MONEY_INPUT, allowZero: false },
+    currentSavings: { label: "Savings you have now", max: MAX_MONEY_INPUT },
+    monthlyIncome: { label: "Monthly income", required: true, max: MAX_MONEY_INPUT },
+    monthlyExpenses: { label: "Monthly spending", required: true, max: MAX_MONEY_INPUT },
+    annualRaiseRate: { label: "Yearly income increase", max: MAX_RATE_INPUT },
+    annualInflationRate: { label: "Yearly price increase", max: MAX_RATE_INPUT },
+    targetMonths: { label: "Custom months", required: true, max: MAX_TARGET_MONTHS, allowZero: false }
+  };
+
+  (Object.keys(rules) as NumericField[]).forEach((field) => {
+    const message = validateNumber(values[field], rules[field]);
+    if (message) errors[field] = message;
+  });
+
+  return errors;
+}
+
+function buildCalculatorInput(values: NumericInputState, goalName: string): CalculatorInput {
+  return {
+    goalName,
+    goalAmount: parseInputValue(values.goalAmount),
+    currentSavings: parseInputValue(values.currentSavings),
+    monthlyIncome: parseInputValue(values.monthlyIncome),
+    monthlyExpenses: parseInputValue(values.monthlyExpenses),
+    annualRaiseRate: parseInputValue(values.annualRaiseRate),
+    annualInflationRate: parseInputValue(values.annualInflationRate),
+    targetMonths: parseInputValue(values.targetMonths)
+  };
+}
+
 export default function App() {
-  const [form, setForm] = useState<CalculatorInput>(initialInput);
+  const [goalName, setGoalName] = useState(initialInput.goalName);
+  const [numericInputs, setNumericInputs] = useState<NumericInputState>(() => initialNumericInputs(initialInput));
   const [goalType, setGoalType] = useState("Car");
   const [timelineChoice, setTimelineChoice] = useState(36);
   const [selectedCurrency, setSelectedCurrency] = useState(currencyOptions[0]);
+  const validationErrors = useMemo(() => getValidationErrors(numericInputs), [numericInputs]);
+  const hasValidationErrors = Object.keys(validationErrors).length > 0;
+  const form = useMemo(() => buildCalculatorInput(numericInputs, goalName), [numericInputs, goalName]);
   const result = useMemo(() => calculateGoal(form), [form]);
   const money = (value: number) => currency(value, selectedCurrency);
   const timelineLabel =
     timelineChoice === 0
-      ? `${form.targetMonths} months`
+      ? `${numericInputs.targetMonths || "Custom"} months`
       : timelineOptions.find((option) => option.value === timelineChoice)?.label ?? `${form.targetMonths} months`;
 
   function updateField(field: keyof CalculatorInput, value: string) {
-    setForm((current) => ({
+    if (field === "goalName") {
+      setGoalName(value);
+      return;
+    }
+
+    setNumericInputs((current) => ({
       ...current,
-      [field]: field === "goalName" ? value : numberValue(value)
+      [field]: value
     }));
   }
 
@@ -85,10 +184,10 @@ export default function App() {
     const selectedGoal = goalOptions.find((option) => option.label === value);
     if (!selectedGoal) return;
 
-    setForm((current) => ({
+    setGoalName(selectedGoal.goalName);
+    setNumericInputs((current) => ({
       ...current,
-      goalName: selectedGoal.goalName,
-      goalAmount: selectedGoal.amounts[selectedCurrency.code as keyof typeof selectedGoal.amounts]
+      goalAmount: String(selectedGoal.amounts[selectedCurrency.code as keyof typeof selectedGoal.amounts])
     }));
   }
 
@@ -97,7 +196,7 @@ export default function App() {
     if (!nextCurrency) return;
 
     setSelectedCurrency(nextCurrency);
-    setForm((current) => {
+    setNumericInputs((current) => {
       const selectedGoal = goalOptions.find((option) => option.label === goalType);
       const nextGoalAmount =
         selectedGoal && goalType !== "Other"
@@ -106,8 +205,8 @@ export default function App() {
 
       return {
         ...current,
-        goalAmount: nextGoalAmount,
-        annualInflationRate: nextCurrency.suggestedInflationRate
+        goalAmount: String(nextGoalAmount),
+        annualInflationRate: String(nextCurrency.suggestedInflationRate)
       };
     });
   }
@@ -142,7 +241,7 @@ export default function App() {
           </div>
           <div>
             <span>Can save monthly</span>
-            <strong>{money(result.monthlySurplus)}</strong>
+            <strong>{hasValidationErrors ? "Fix inputs" : money(result.monthlySurplus)}</strong>
           </div>
         </div>
       </section>
@@ -193,7 +292,7 @@ export default function App() {
               <FieldText label="Goal name" help="Write the thing you want to save for." />
               <input
                 placeholder="Example: wedding, laptop, school fees"
-                value={form.goalName}
+                value={goalName}
                 onChange={(event) => updateField("goalName", event.target.value)}
               />
             </label>
@@ -204,41 +303,56 @@ export default function App() {
               <FieldText label="Price today" help={`How much this goal costs right now in ${selectedCurrency.code}.`} />
               <input
                 inputMode="numeric"
-                value={form.goalAmount}
+                value={numericInputs.goalAmount}
                 onChange={(event) => updateField("goalAmount", event.target.value)}
+                aria-invalid={Boolean(validationErrors.goalAmount)}
+                aria-describedby={validationErrors.goalAmount ? "goalAmount-error" : undefined}
               />
+              <FieldError id="goalAmount-error" message={validationErrors.goalAmount} />
             </label>
             <label>
               <FieldText label="Savings you have now" help="Money already saved for this goal." />
               <input
                 inputMode="numeric"
-                value={form.currentSavings}
+                value={numericInputs.currentSavings}
                 onChange={(event) => updateField("currentSavings", event.target.value)}
+                aria-invalid={Boolean(validationErrors.currentSavings)}
+                aria-describedby={validationErrors.currentSavings ? "currentSavings-error" : undefined}
               />
+              <FieldError id="currentSavings-error" message={validationErrors.currentSavings} />
             </label>
             <label>
               <FieldText label="Monthly income" help="Your monthly take-home income, pocket money, salary, business income, or household contribution." />
               <input
                 inputMode="numeric"
-                value={form.monthlyIncome}
+                value={numericInputs.monthlyIncome}
                 onChange={(event) => updateField("monthlyIncome", event.target.value)}
+                aria-invalid={Boolean(validationErrors.monthlyIncome)}
+                aria-describedby={validationErrors.monthlyIncome ? "monthlyIncome-error" : undefined}
               />
+              <FieldError id="monthlyIncome-error" message={validationErrors.monthlyIncome} />
             </label>
             <label>
               <FieldText label="Monthly spending" help="Your regular monthly costs, such as rent, food, transport, bills, fees, and personal spending." />
               <input
                 inputMode="numeric"
-                value={form.monthlyExpenses}
+                value={numericInputs.monthlyExpenses}
                 onChange={(event) => updateField("monthlyExpenses", event.target.value)}
+                aria-invalid={Boolean(validationErrors.monthlyExpenses)}
+                aria-describedby={validationErrors.monthlyExpenses ? "monthlyExpenses-error" : undefined}
               />
+              <FieldError id="monthlyExpenses-error" message={validationErrors.monthlyExpenses} />
             </label>
             <label>
               <FieldText label="Yearly income increase %" help="Expected yearly increase in income. Use 0 if you are not sure." />
               <input
                 inputMode="decimal"
-                value={form.annualRaiseRate}
+                value={numericInputs.annualRaiseRate}
                 onChange={(event) => updateField("annualRaiseRate", event.target.value)}
+                aria-invalid={Boolean(validationErrors.annualRaiseRate)}
+                aria-describedby={validationErrors.annualRaiseRate ? "annualRaiseRate-error" : undefined}
               />
+              <FieldError id="annualRaiseRate-error" message={validationErrors.annualRaiseRate} />
             </label>
             <label>
               <FieldText
@@ -247,9 +361,12 @@ export default function App() {
               />
               <input
                 inputMode="decimal"
-                value={form.annualInflationRate}
+                value={numericInputs.annualInflationRate}
                 onChange={(event) => updateField("annualInflationRate", event.target.value)}
+                aria-invalid={Boolean(validationErrors.annualInflationRate)}
+                aria-describedby={validationErrors.annualInflationRate ? "annualInflationRate-error" : undefined}
               />
+              <FieldError id="annualInflationRate-error" message={validationErrors.annualInflationRate} />
             </label>
           </div>
 
@@ -272,13 +389,28 @@ export default function App() {
               <FieldText label="Custom months" help="Enter the number of months you want to save for." />
               <input
                 inputMode="numeric"
-                value={form.targetMonths}
+                value={numericInputs.targetMonths}
                 onChange={(event) => updateField("targetMonths", event.target.value)}
+                aria-invalid={Boolean(validationErrors.targetMonths)}
+                aria-describedby={validationErrors.targetMonths ? "targetMonths-error" : undefined}
               />
+              <FieldError id="targetMonths-error" message={validationErrors.targetMonths} />
             </label>
           )}
         </form>
 
+        {hasValidationErrors ? (
+          <section className="panel validation-summary" aria-live="polite">
+            <p className="eyebrow">Check inputs</p>
+            <h2>Some numbers need fixing.</h2>
+            <p>Please correct the highlighted fields before using the estimate.</p>
+            <ul>
+              {Object.entries(validationErrors).map(([field, message]) => (
+                <li key={field}>{message}</li>
+              ))}
+            </ul>
+          </section>
+        ) : (
         <section className="results" aria-label="Goal calculation results">
           <div className={result.isOnTrack ? "status on-track" : "status needs-work"}>
             <div>
@@ -343,8 +475,19 @@ export default function App() {
           </div>
 
         </section>
+        )}
       </section>
     </main>
+  );
+}
+
+function FieldError({ id, message }: { id: string; message?: string }) {
+  if (!message) return null;
+
+  return (
+    <span className="field-error" id={id} role="alert">
+      {message}
+    </span>
   );
 }
 

@@ -194,6 +194,18 @@ select:focus {
   box-shadow: 0 0 0 3px rgba(142, 224, 195, 0.14);
 }
 
+input[aria-invalid="true"] {
+  border-color: #f2a65a;
+  box-shadow: 0 0 0 3px rgba(242, 166, 90, 0.14);
+}
+
+.field-error {
+  color: #ffc98f;
+  font-size: 0.8rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
 .field-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -364,6 +376,25 @@ select:focus {
   background: rgba(142, 224, 195, 0.1);
   border: 1px solid rgba(142, 224, 195, 0.18);
   border-radius: 8px;
+}
+
+.validation-summary {
+  border-color: rgba(242, 166, 90, 0.34);
+  background: rgba(52, 38, 18, 0.72);
+}
+
+.validation-summary p:not(.eyebrow) {
+  margin: 8px 0 0;
+  color: #e4d4bd;
+  line-height: 1.5;
+}
+
+.validation-summary ul {
+  margin: 16px 0 0;
+  padding-left: 20px;
+  color: #ffc98f;
+  font-weight: 700;
+  line-height: 1.6;
 }
 
 @media (max-width: 980px) {

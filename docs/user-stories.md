@@ -56,9 +56,10 @@ Acceptance criteria:
 
 - Given I edit price today, savings now, monthly income, or monthly spending, when the value is numeric, then calculations update immediately.
 - Given I enter commas in a numeric field, when the value is parsed, then commas are ignored.
-- Given I leave a numeric field empty or enter non-numeric text, when the app calculates, then that field is treated as zero.
-- Given I enter a negative numeric value, when the app calculates, then the calculation clamps that value to zero.
-- Given I enter a very large number, when the app calculates, then it attempts to calculate and format the result without a custom validation error message.
+- Given I leave a required numeric field empty or enter non-numeric text, when the app validates the form, then it shows a field-level validation message and pauses result estimates.
+- Given I enter a negative numeric value, when the app validates the form, then it shows that the field cannot be negative and pauses result estimates.
+- Given I enter a very large number above the supported limit, when the app validates the form, then it shows that the value is too large and pauses result estimates.
+- Given I leave optional savings or growth fields empty, when the app validates the form, then the field is allowed and treated as zero.
 
 ## S-5: Enter Growth Assumptions
 
@@ -73,8 +74,10 @@ Acceptance criteria:
 - Given I edit yearly income increase, when the value is numeric, then projected monthly income grows using a monthly equivalent of that annual percentage.
 - Given I edit yearly price increase, when the value is numeric, then projected monthly expenses and future goal price grow using a monthly equivalent of that annual percentage.
 - Given I select a currency, when the app updates the yearly price increase field, then it uses the suggested default for that currency.
-- Given I enter a negative growth percentage, when the app calculates, then the calculation clamps that percentage to zero.
-- Given I enter an empty or non-numeric growth value, when the app calculates, then that value is treated as zero.
+- Given I enter a negative growth percentage, when the app validates the form, then it shows that the value cannot be negative and pauses result estimates.
+- Given I enter a growth percentage above 100, when the app validates the form, then it shows that the value is too large and pauses result estimates.
+- Given I leave a growth value empty, when the app validates the form, then that value is allowed and treated as zero.
+- Given I enter non-numeric text for a growth value, when the app validates the form, then it shows a field-level validation message and pauses result estimates.
 
 ## S-6: Choose A Target Timeline
 
@@ -88,8 +91,9 @@ Acceptance criteria:
 
 - Given I choose 6 months, 1 year, 1.5 years, 2 years, 3 years, or 5 years, when the selection changes, then target months update to 6, 12, 18, 24, 36, or 60.
 - Given I choose Custom months, when the custom months input appears, then I can type a custom number of months.
-- Given I enter zero, a negative value, an empty value, or non-numeric text for custom months, when the app calculates, then the calculation uses at least 1 month.
+- Given I enter zero, a negative value, an empty value, or non-numeric text for custom months, when the app validates the form, then it shows a field-level validation message and pauses result estimates.
 - Given I enter a decimal custom month value, when the app calculates, then the target month value is rounded to the nearest month.
+- Given I enter custom months above 600, when the app validates the form, then it shows that the value is too large and pauses result estimates.
 - Given I change the timeline, when the result updates, then on-track status, future price, projected savings, and monthly gap update immediately.
 
 ## S-7: See Whether The Plan Is On Track
@@ -193,20 +197,23 @@ Acceptance criteria:
 - Given a result metric has an info icon, when the user hovers or focuses it, then helper text explains the meaning or formula.
 - Given recommendation labels have info icons, when the user hovers or focuses them, then helper text explains the recommendation.
 
-## S-14: Prevent Invalid Form Submission Errors
+## S-14: Show Validation Messages
 
 Job: J-1
 
 Status: Implemented
 
-As an everyday goal planner, I want the app to continue calculating when I make simple input mistakes, so that I can correct my numbers without losing the page.
+As an everyday goal planner, I want visible validation messages when I make input mistakes, so that I know what to fix before trusting the estimate.
 
 Acceptance criteria:
 
-- Given a numeric input is empty, when the app recalculates, then it treats the value as zero instead of throwing an error.
-- Given a numeric input contains non-numeric text, when the app recalculates, then it treats the value as zero instead of throwing an error.
-- Given a negative input is entered, when the app recalculates, then the calculation clamps it to zero where the finance logic consumes it.
-- Given the app encounters an unreachable goal within the calculation window, when results render, then it displays Not yet rather than crashing.
+- Given a required numeric input is empty, when the app validates the form, then it shows a field-level message.
+- Given a numeric input contains non-numeric text, when the app validates the form, then it shows a field-level message.
+- Given a negative input is entered, when the app validates the form, then it shows a field-level message.
+- Given an amount is above the supported money limit, when the app validates the form, then it shows a field-level message.
+- Given a percentage is above 100, when the app validates the form, then it shows a field-level message.
+- Given custom months is above 600, when the app validates the form, then it shows a field-level message.
+- Given any validation message is active, when results would otherwise render, then the app shows a correction summary instead of the estimate.
 
 ## S-15: Convert Currency Amounts Automatically
 
@@ -234,15 +241,16 @@ Acceptance criteria:
 - Given I create a goal estimate, when I leave or refresh the app, then the app should persist the goal for later review.
 - Given the current implementation has no persistence, when I refresh the page, then the app resets to its initial in-memory state.
 
-## S-17: Show Validation Messages
+## S-17: Provide Advanced Validation Rules
 
 Job: J-6
 
 Status: Not implemented
 
-As an informal financial guide, I want visible validation messages for invalid numbers, so that users understand what to fix.
+As an informal financial guide, I want advanced contextual validation rules, so that users understand whether their numbers are realistic for their situation.
 
 Acceptance criteria:
 
-- Given a user enters invalid, empty, negative, extremely large, or unrealistic values, when the app validates the form, then it should show field-level guidance.
-- Given the current implementation, when those values are entered, then the app coerces or clamps values in calculation without displaying field-level validation messages.
+- Given a user enters realistic-looking but financially unusual values, when the app validates the form, then it should explain why the values may need review.
+- Given monthly spending is higher than monthly income, when the app validates the form, then it should provide contextual guidance about negative monthly surplus.
+- Given the current implementation, when spending is higher than income, then the app still calculates and displays results instead of showing contextual guidance.
