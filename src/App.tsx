@@ -135,6 +135,12 @@ function getValidationErrors(values: NumericInputState): Partial<Record<NumericF
     if (message) errors[field] = message;
   });
 
+  const monthlyIncome = parseInputValue(values.monthlyIncome);
+  const monthlyExpenses = parseInputValue(values.monthlyExpenses);
+  if (!errors.monthlyIncome && !errors.monthlyExpenses && monthlyExpenses > monthlyIncome) {
+    errors.monthlyExpenses = "Monthly spending cannot be more than monthly income for this MVP.";
+  }
+
   return errors;
 }
 
@@ -255,11 +261,14 @@ export default function App() {
               <p>Use monthly numbers you roughly know. Exact figures are not required.</p>
             </div>
           </div>
+          <p className="assumption-note">
+            MVP assumption: monthly income should be greater than or equal to monthly spending.
+          </p>
 
           <label>
             <FieldText
               label="Currency"
-              help="Choose the currency you want to use. The app does not convert amounts; it formats the numbers you enter in this currency."
+              help="Choose the currency you want to use. The app does not convert exchange rates. For preset goals, it uses sample prices for that currency."
             />
             <select
               value={selectedCurrency.code}
@@ -333,7 +342,7 @@ export default function App() {
               <FieldError id="monthlyIncome-error" message={validationErrors.monthlyIncome} />
             </label>
             <label>
-              <FieldText label="Monthly spending" help="Your regular monthly costs, such as rent, food, transport, bills, fees, and personal spending." />
+              <FieldText label="Monthly spending" help="Your regular monthly costs, such as rent, food, transport, bills, fees, and personal spending. For this MVP, monthly spending must be less than or equal to monthly income." />
               <input
                 inputMode="numeric"
                 value={numericInputs.monthlyExpenses}
@@ -357,7 +366,7 @@ export default function App() {
             <label>
               <FieldText
                 label="Yearly price increase %"
-                help={`Suggested starting point for ${selectedCurrency.code}: ${selectedCurrency.suggestedInflationRate}% per year. You can change it if prices in your area feel different.`}
+                help={`When you change currency, this field updates to a suggested starting point for that currency: ${selectedCurrency.suggestedInflationRate}% per year. It is only an editable assumption, not live economic data.`}
               />
               <input
                 inputMode="decimal"

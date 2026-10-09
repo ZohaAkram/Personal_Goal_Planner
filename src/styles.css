@@ -159,6 +159,17 @@ h2 {
   line-height: 1.5;
 }
 
+.assumption-note {
+  margin: -6px 0 18px;
+  padding: 10px 12px;
+  color: #cbd8d4;
+  background: rgba(142, 224, 195, 0.08);
+  border: 1px solid rgba(142, 224, 195, 0.18);
+  border-radius: 8px;
+  font-size: 0.84rem;
+  line-height: 1.45;
+}
+
 label {
   display: grid;
   gap: 8px;

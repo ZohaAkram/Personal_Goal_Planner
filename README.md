@@ -112,6 +112,7 @@ All source files, tests, documentation, and project configuration were created d
 
 - Currency can be selected by the user. The app formats values in the selected currency but does not convert exchange rates.
 - Selecting a currency updates the suggested yearly price increase for that currency/country context. This is an editable planning assumption, not live economic data.
+- For this MVP happy flow, monthly income must be greater than or equal to monthly spending.
 - The selected target timeline controls "Savings by chosen time"; the estimated finish date may be earlier.
 - Inflation affects both the future goal amount and monthly expenses.
 - Expected raises affect monthly income gradually using a monthly equivalent of the annual raise rate.

@@ -13,7 +13,7 @@ Acceptance criteria:
 - Given the app is open, when I choose PKR, USD, GBP, EUR, AED, SAR, INR, or BDT, then result values are formatted using that selected currency.
 - Given I change currency, when a preset goal is selected, then the preset goal amount changes to that currency's preset amount.
 - Given I change currency, when I had selected Other as the goal type, then my custom goal amount is not converted or replaced.
-- Given I change currency, when the yearly price increase field updates, then it uses the selected currency's suggested inflation default.
+- Given I change currency, when the yearly price increase field updates, then it uses the selected currency's suggested inflation default as an editable planning assumption.
 - Given the app formats currency, when a calculated money value is negative, then it displays as zero because the formatter clamps display values to zero.
 
 ## S-2: Choose A Preset Goal
@@ -59,6 +59,7 @@ Acceptance criteria:
 - Given I leave a required numeric field empty or enter non-numeric text, when the app validates the form, then it shows a field-level validation message and pauses result estimates.
 - Given I enter a negative numeric value, when the app validates the form, then it shows that the field cannot be negative and pauses result estimates.
 - Given I enter a very large number above the supported limit, when the app validates the form, then it shows that the value is too large and pauses result estimates.
+- Given monthly spending is higher than monthly income, when the app validates the form, then it shows a field-level message and pauses result estimates.
 - Given I leave optional savings or growth fields empty, when the app validates the form, then the field is allowed and treated as zero.
 
 ## S-5: Enter Growth Assumptions
@@ -73,7 +74,7 @@ Acceptance criteria:
 
 - Given I edit yearly income increase, when the value is numeric, then projected monthly income grows using a monthly equivalent of that annual percentage.
 - Given I edit yearly price increase, when the value is numeric, then projected monthly expenses and future goal price grow using a monthly equivalent of that annual percentage.
-- Given I select a currency, when the app updates the yearly price increase field, then it uses the suggested default for that currency.
+- Given I select a currency, when the app updates the yearly price increase field, then it uses the suggested default for that currency as an editable planning assumption.
 - Given I enter a negative growth percentage, when the app validates the form, then it shows that the value cannot be negative and pauses result estimates.
 - Given I enter a growth percentage above 100, when the app validates the form, then it shows that the value is too large and pauses result estimates.
 - Given I leave a growth value empty, when the app validates the form, then that value is allowed and treated as zero.
@@ -210,6 +211,7 @@ Acceptance criteria:
 - Given a required numeric input is empty, when the app validates the form, then it shows a field-level message.
 - Given a numeric input contains non-numeric text, when the app validates the form, then it shows a field-level message.
 - Given a negative input is entered, when the app validates the form, then it shows a field-level message.
+- Given monthly spending is higher than monthly income, when the app validates the form, then it shows that spending cannot be more than income for this MVP.
 - Given an amount is above the supported money limit, when the app validates the form, then it shows a field-level message.
 - Given a percentage is above 100, when the app validates the form, then it shows a field-level message.
 - Given custom months is above 600, when the app validates the form, then it shows a field-level message.
@@ -247,10 +249,10 @@ Job: J-6
 
 Status: Not implemented
 
-As an informal financial guide, I want advanced contextual validation rules, so that users understand whether their numbers are realistic for their situation.
+As an informal financial guide, I want advanced contextual validation rules beyond the MVP happy flow, so that users understand whether their numbers are realistic for their situation.
 
 Acceptance criteria:
 
 - Given a user enters realistic-looking but financially unusual values, when the app validates the form, then it should explain why the values may need review.
-- Given monthly spending is higher than monthly income, when the app validates the form, then it should provide contextual guidance about negative monthly surplus.
-- Given the current implementation, when spending is higher than income, then the app still calculates and displays results instead of showing contextual guidance.
+- Given monthly spending is equal to monthly income, when the app validates the form, then it should explain that the plan has no monthly leftover unless savings already cover the goal.
+- Given the current MVP, when spending is equal to income, then the app allows the input because the happy-flow assumption is income greater than or equal to spending.
