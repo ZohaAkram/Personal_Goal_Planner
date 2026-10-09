@@ -3,14 +3,14 @@ import { useMemo, useState } from "react";
 import { calculateGoal, currency, type CalculatorInput, type CurrencyOption } from "./lib/finance";
 
 const currencyOptions: CurrencyOption[] = [
-  { code: "PKR", label: "Pakistani rupee (PKR)", locale: "en-PK", suggestedInflationRate: 10 },
-  { code: "USD", label: "US dollar (USD)", locale: "en-US", suggestedInflationRate: 3 },
-  { code: "GBP", label: "British pound (GBP)", locale: "en-GB", suggestedInflationRate: 3 },
-  { code: "EUR", label: "Euro (EUR)", locale: "en-IE", suggestedInflationRate: 2.5 },
-  { code: "AED", label: "UAE dirham (AED)", locale: "en-AE", suggestedInflationRate: 2 },
-  { code: "SAR", label: "Saudi riyal (SAR)", locale: "en-SA", suggestedInflationRate: 2 },
-  { code: "INR", label: "Indian rupee (INR)", locale: "en-IN", suggestedInflationRate: 5 },
-  { code: "BDT", label: "Bangladeshi taka (BDT)", locale: "en-BD", suggestedInflationRate: 7 }
+  { code: "PKR", label: "Pakistani rupee (PKR)", locale: "en-PK" },
+  { code: "USD", label: "US dollar (USD)", locale: "en-US" },
+  { code: "GBP", label: "British pound (GBP)", locale: "en-GB" },
+  { code: "EUR", label: "Euro (EUR)", locale: "en-IE" },
+  { code: "AED", label: "UAE dirham (AED)", locale: "en-AE" },
+  { code: "SAR", label: "Saudi riyal (SAR)", locale: "en-SA" },
+  { code: "INR", label: "Indian rupee (INR)", locale: "en-IN" },
+  { code: "BDT", label: "Bangladeshi taka (BDT)", locale: "en-BD" }
 ];
 
 const goalOptions = [
@@ -53,7 +53,7 @@ const initialInput: CalculatorInput = {
   monthlyIncome: 120000,
   monthlyExpenses: 85000,
   annualRaiseRate: 3,
-  annualInflationRate: 10,
+  annualInflationRate: 0,
   targetMonths: 36
 };
 
@@ -75,7 +75,7 @@ function initialNumericInputs(input: CalculatorInput): NumericInputState {
     monthlyIncome: String(input.monthlyIncome),
     monthlyExpenses: String(input.monthlyExpenses),
     annualRaiseRate: String(input.annualRaiseRate),
-    annualInflationRate: String(input.annualInflationRate),
+    annualInflationRate: "",
     targetMonths: String(input.targetMonths)
   };
 }
@@ -211,8 +211,7 @@ export default function App() {
 
       return {
         ...current,
-        goalAmount: String(nextGoalAmount),
-        annualInflationRate: String(nextCurrency.suggestedInflationRate)
+        goalAmount: String(nextGoalAmount)
       };
     });
   }
@@ -366,7 +365,7 @@ export default function App() {
             <label>
               <FieldText
                 label="Inflation rate %"
-                help={`Estimated inflation per year. Suggested for ${selectedCurrency.code}: ${selectedCurrency.suggestedInflationRate}%. You can edit it.`}
+                help="Estimated inflation per year for your country."
               />
               <input
                 inputMode="decimal"

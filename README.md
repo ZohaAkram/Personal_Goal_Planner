@@ -9,7 +9,7 @@ Users choose a currency and enter a goal type, goal amount, current savings, mon
 - whether the user is on track for their selected timeline,
 - how much extra they may need to save, earn, or cut from expenses each month.
 
-The MVP uses a minimal dark interface, simple goal presets, an "Other" goal option, a currency selector, currency-aware suggested inflation defaults, common timeline choices such as 1 year and 1.5 years, and small info helpers that explain each field and result in plain language.
+The MVP uses a minimal dark interface, simple goal presets, an "Other" goal option, a currency selector, common timeline choices such as 1 year and 1.5 years, and small info helpers that explain each field and result in plain language.
 
 ## Who It Is For
 
@@ -111,7 +111,7 @@ All source files, tests, documentation, and project configuration were created d
 ## Development Assumptions
 
 - Currency can be selected by the user. The app formats values in the selected currency but does not convert exchange rates.
-- Selecting a currency updates the suggested inflation rate for that currency/country context. This is an editable planning assumption, not live economic data.
+- Inflation is entered by the user. Selecting a currency does not automatically set or change the inflation rate.
 - For this MVP happy flow, monthly income must be greater than or equal to monthly spending.
 - The selected target timeline controls "Savings by chosen time"; the estimated finish date may be earlier.
 - Inflation affects both the future goal amount and monthly expenses.

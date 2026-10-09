@@ -13,7 +13,8 @@ Acceptance criteria:
 - Given the app is open, when I choose PKR, USD, GBP, EUR, AED, SAR, INR, or BDT, then result values are formatted using that selected currency.
 - Given I change currency, when a preset goal is selected, then the preset goal amount changes to that currency's preset amount.
 - Given I change currency, when I had selected Other as the goal type, then my custom goal amount is not converted or replaced.
-- Given I change currency, when the inflation rate field updates, then it uses the selected currency's suggested inflation default as an editable planning assumption.
+- Given I change currency, when the inflation rate field has a value, then the existing value remains unchanged.
+- Given I change currency, when the inflation rate field is empty, then it remains empty.
 - Given the app formats currency, when a calculated money value is negative, then it displays as zero because the formatter clamps display values to zero.
 
 ## S-2: Choose A Preset Goal
@@ -74,7 +75,7 @@ Acceptance criteria:
 
 - Given I edit yearly income increase, when the value is numeric, then projected monthly income grows using a monthly equivalent of that annual percentage.
 - Given I edit inflation rate, when the value is numeric, then projected monthly expenses and future goal price grow using a monthly equivalent of that annual percentage.
-- Given I select a currency, when the app updates the inflation rate field, then it uses the suggested default for that currency as an editable planning assumption.
+- Given I select a currency, when the inflation rate field is empty or already entered, then the app does not automatically set or change that value.
 - Given I enter a negative growth percentage, when the app validates the form, then it shows that the value cannot be negative and pauses result estimates.
 - Given I enter a growth percentage above 100, when the app validates the form, then it shows that the value is too large and pauses result estimates.
 - Given I leave a growth value empty, when the app validates the form, then that value is allowed and treated as zero.

@@ -39,7 +39,6 @@ export type CurrencyOption = {
   code: string;
   label: string;
   locale: string;
-  suggestedInflationRate: number;
 };
 
 export function currency(value: number, option: CurrencyOption): string {
