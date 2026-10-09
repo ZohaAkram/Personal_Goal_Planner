@@ -13,7 +13,7 @@ The MVP uses a minimal dark interface, simple goal presets, an "Other" goal opti
 
 ## Who It Is For
 
-This MVP is for students, women and men managing household money, young earners, homemakers, and middle-income families who want a plain-language planning tool before making a large purchase or savings commitment. It is designed for clarity over financial complexity and should not be treated as professional financial advice.
+This MVP is for students, women and men managing household money, young earners, homemakers, and middle-income families who want a plain-language planning tool before making a large purchase or savings commitment. 
 
 ## Prerequisites
 
@@ -116,5 +116,4 @@ All source files, tests, documentation, and project configuration were created d
 - Inflation affects both the future goal amount and monthly expenses.
 - Expected raises affect monthly income gradually using a monthly equivalent of the annual raise rate.
 - The calculator does not model investment returns, taxes, debt interest, windfalls, or one-time expenses.
-- Results are estimates for personal planning and are not financial advice.
-- The `transcripts/` folder is intentionally empty for now and reserved for future AI session exports.
+- Results are estimates for personal planning.
