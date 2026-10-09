@@ -11,6 +11,12 @@ Users choose a currency and enter a goal type, goal amount, current savings, mon
 
 The MVP uses a minimal dark interface, simple goal presets, an "Other" goal option, a currency selector, common timeline choices such as 1 year and 1.5 years, and small info helpers that explain each field and result in plain language.
 
+## Why This App
+
+This application was chosen because personal goal planning is useful for almost every type of user. People often know what they want to buy or achieve, but they do not always know how long it will take or how much they need to save each month. Instead of doing complex calculations on a simple mobile calculator, users can enter their numbers in one place and get an easy estimate.
+
+The app also supports inflation as an input because prices can change over time. When inflation is fluctuating, users can add their own expected inflation rate and see how it may affect the future cost of their goal.
+
 ## Who It Is For
 
 This MVP is for students, women and men managing household money, young earners, homemakers, and middle-income families who want a plain-language planning tool before making a large purchase or savings commitment. 
