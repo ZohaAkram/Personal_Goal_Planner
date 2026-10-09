@@ -2,7 +2,7 @@
 
 An MVP web app for everyday users that helps estimate how long it may take to reach a financial goal such as buying a car, saving for a house down payment, building an emergency fund, paying fees, or planning a family expense.
 
-Users choose a currency and enter a goal type, goal amount, current savings, monthly income, monthly spending, expected yearly income increase, expected yearly price increase, and a simple target timeline. The calculator estimates:
+Users choose a currency and enter a goal type, goal amount, current savings, monthly income, monthly spending, expected yearly income increase, expected inflation rate, and a simple target timeline. The calculator estimates:
 
 - when the goal may be reachable,
 - what the goal could cost in the future after inflation,
@@ -111,7 +111,7 @@ All source files, tests, documentation, and project configuration were created d
 ## Development Assumptions
 
 - Currency can be selected by the user. The app formats values in the selected currency but does not convert exchange rates.
-- Selecting a currency updates the suggested yearly price increase for that currency/country context. This is an editable planning assumption, not live economic data.
+- Selecting a currency updates the suggested inflation rate for that currency/country context. This is an editable planning assumption, not live economic data.
 - For this MVP happy flow, monthly income must be greater than or equal to monthly spending.
 - The selected target timeline controls "Savings by chosen time"; the estimated finish date may be earlier.
 - Inflation affects both the future goal amount and monthly expenses.

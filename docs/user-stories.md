@@ -13,7 +13,7 @@ Acceptance criteria:
 - Given the app is open, when I choose PKR, USD, GBP, EUR, AED, SAR, INR, or BDT, then result values are formatted using that selected currency.
 - Given I change currency, when a preset goal is selected, then the preset goal amount changes to that currency's preset amount.
 - Given I change currency, when I had selected Other as the goal type, then my custom goal amount is not converted or replaced.
-- Given I change currency, when the yearly price increase field updates, then it uses the selected currency's suggested inflation default as an editable planning assumption.
+- Given I change currency, when the inflation rate field updates, then it uses the selected currency's suggested inflation default as an editable planning assumption.
 - Given the app formats currency, when a calculated money value is negative, then it displays as zero because the formatter clamps display values to zero.
 
 ## S-2: Choose A Preset Goal
@@ -68,13 +68,13 @@ Job: J-3
 
 Status: Implemented
 
-As an everyday goal planner, I want to enter yearly income increase and yearly price increase, so that the projection can account for changing income and prices.
+As an everyday goal planner, I want to enter yearly income increase and inflation rate, so that the projection can account for changing income and prices.
 
 Acceptance criteria:
 
 - Given I edit yearly income increase, when the value is numeric, then projected monthly income grows using a monthly equivalent of that annual percentage.
-- Given I edit yearly price increase, when the value is numeric, then projected monthly expenses and future goal price grow using a monthly equivalent of that annual percentage.
-- Given I select a currency, when the app updates the yearly price increase field, then it uses the suggested default for that currency as an editable planning assumption.
+- Given I edit inflation rate, when the value is numeric, then projected monthly expenses and future goal price grow using a monthly equivalent of that annual percentage.
+- Given I select a currency, when the app updates the inflation rate field, then it uses the suggested default for that currency as an editable planning assumption.
 - Given I enter a negative growth percentage, when the app validates the form, then it shows that the value cannot be negative and pauses result estimates.
 - Given I enter a growth percentage above 100, when the app validates the form, then it shows that the value is too large and pauses result estimates.
 - Given I leave a growth value empty, when the app validates the form, then that value is allowed and treated as zero.
@@ -136,8 +136,8 @@ As an everyday goal planner, I want to see the expected future price, so that I 
 
 Acceptance criteria:
 
-- Given a goal amount and yearly price increase, when the app calculates, then future goal price is the goal amount grown by the monthly equivalent of the yearly price increase over the target months.
-- Given yearly price increase is zero, when the app calculates, then future goal price equals the goal amount.
+- Given a goal amount and inflation rate, when the app calculates, then future goal price is the goal amount grown by the monthly equivalent of the inflation rate over the target months.
+- Given inflation rate is zero, when the app calculates, then future goal price equals the goal amount.
 - Given the selected currency changes, when the result renders, then the future price is formatted in the selected currency.
 
 ## S-10: See Monthly Saving Capacity
@@ -166,7 +166,7 @@ Acceptance criteria:
 
 - Given current savings and monthly contribution projections, when the app calculates, then projected savings by chosen time equals the projection value for the selected target month.
 - Given income increase is greater than zero, when the app projects savings, then monthly income increases over time.
-- Given price increase is greater than zero, when the app projects savings, then monthly expenses increase over time.
+- Given inflation rate is greater than zero, when the app projects savings, then monthly expenses increase over time.
 - Given the target month is beyond the stored projection list, when the app calculates, then it uses the last available projection point.
 
 ## S-12: See Monthly Gap Recommendations

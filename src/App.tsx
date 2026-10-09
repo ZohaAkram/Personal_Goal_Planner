@@ -126,7 +126,7 @@ function getValidationErrors(values: NumericInputState): Partial<Record<NumericF
     monthlyIncome: { label: "Monthly income", required: true, max: MAX_MONEY_INPUT },
     monthlyExpenses: { label: "Monthly spending", required: true, max: MAX_MONEY_INPUT },
     annualRaiseRate: { label: "Yearly income increase", max: MAX_RATE_INPUT },
-    annualInflationRate: { label: "Yearly price increase", max: MAX_RATE_INPUT },
+    annualInflationRate: { label: "Inflation rate", max: MAX_RATE_INPUT },
     targetMonths: { label: "Custom months", required: true, max: MAX_TARGET_MONTHS, allowZero: false }
   };
 
@@ -365,8 +365,8 @@ export default function App() {
             </label>
             <label>
               <FieldText
-                label="Yearly price increase %"
-                help={`When you change currency, this field updates to a suggested starting point for that currency: ${selectedCurrency.suggestedInflationRate}% per year. It is only an editable assumption, not live economic data.`}
+                label="Inflation rate %"
+                help={`Estimated inflation per year. Suggested for ${selectedCurrency.code}: ${selectedCurrency.suggestedInflationRate}%. You can edit it.`}
               />
               <input
                 inputMode="decimal"
