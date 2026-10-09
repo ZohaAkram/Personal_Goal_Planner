@@ -1,4 +1,4 @@
-# Personal Financial Goal Calculator
+# Zoha Akram Calculator
 
 An MVP web app for everyday users that helps estimate how long it may take to reach a financial goal such as buying a car, saving for a house down payment, building an emergency fund, paying fees, or planning a family expense.
 
@@ -66,7 +66,7 @@ The production build is written to `dist/`, which is excluded from source submis
 This repository is intended to deploy at:
 
 ```text
-https://zohaakram.github.io/Personal_Goal_Planner/
+https://zohaakram.github.io/Zoha_Akram_Calculator/
 ```
 
 Use this command so Vite generates asset paths for the repository subpath:

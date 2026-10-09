@@ -1,12 +1,12 @@
 {
-  "name": "personal-financial-goal-calculator",
+  "name": "zoha-akram-calculator",
   "version": "0.1.0",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "vite --host 127.0.0.1",
     "build": "tsc && vite build",
-    "build:pages": "tsc && vite build --base=/Personal_Goal_Planner/",
+    "build:pages": "tsc && vite build --base=/Zoha_Akram_Calculator/",
     "preview": "vite preview --host 127.0.0.1",
     "test": "vitest run --environment node --globals"
   },
