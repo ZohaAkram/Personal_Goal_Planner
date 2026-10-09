@@ -3,20 +3,30 @@ import { useMemo, useState } from "react";
 import { calculateGoal, currency, type CalculatorInput } from "./lib/finance";
 
 const goalOptions = [
-  { label: "Car", goalName: "Car", amount: 25000 },
-  { label: "House down payment", goalName: "House down payment", amount: 80000 },
-  { label: "Emergency fund", goalName: "Emergency fund", amount: 15000 },
-  { label: "Other", goalName: "", amount: 10000 }
+  { label: "Car", goalName: "Car", amount: 2500000 },
+  { label: "House down payment", goalName: "House down payment", amount: 3000000 },
+  { label: "Emergency fund", goalName: "Emergency fund", amount: 500000 },
+  { label: "Other", goalName: "", amount: 100000 }
+];
+
+const timelineOptions = [
+  { label: "6 months", value: 6 },
+  { label: "1 year", value: 12 },
+  { label: "1.5 years", value: 18 },
+  { label: "2 years", value: 24 },
+  { label: "3 years", value: 36 },
+  { label: "5 years", value: 60 },
+  { label: "Custom months", value: 0 }
 ];
 
 const initialInput: CalculatorInput = {
-  goalName: "New car",
-  goalAmount: 25000,
-  currentSavings: 4000,
-  monthlyIncome: 4500,
-  monthlyExpenses: 3300,
+  goalName: "Car",
+  goalAmount: 2500000,
+  currentSavings: 300000,
+  monthlyIncome: 120000,
+  monthlyExpenses: 85000,
   annualRaiseRate: 3,
-  annualInflationRate: 3,
+  annualInflationRate: 10,
   targetMonths: 36
 };
 
@@ -27,6 +37,7 @@ function numberValue(value: string): number {
 export default function App() {
   const [form, setForm] = useState<CalculatorInput>(initialInput);
   const [goalType, setGoalType] = useState("Car");
+  const [timelineChoice, setTimelineChoice] = useState(36);
   const result = useMemo(() => calculateGoal(form), [form]);
 
   function updateField(field: keyof CalculatorInput, value: string) {
@@ -48,22 +59,30 @@ export default function App() {
     }));
   }
 
+  function updateTimeline(value: string) {
+    const months = numberValue(value);
+    setTimelineChoice(months);
+    if (months > 0) {
+      updateField("targetMonths", String(months));
+    }
+  }
+
   const finishSummary =
     result.monthsToGoal === null
       ? "Not reachable within 50 years with these inputs"
       : result.monthsToGoal === 0
         ? "You can afford this goal today"
-        : `${result.monthsToGoal} months`;
+        : formatMonths(result.monthsToGoal);
 
   return (
     <main className="app-shell">
       <section className="hero">
         <div className="hero-copy">
-          <p className="eyebrow">Personal goal planner</p>
-          <h1>See when your money catches up to your goal.</h1>
+          <p className="eyebrow">Goal savings planner</p>
+          <h1>Plan a big purchase without a confusing spreadsheet.</h1>
           <p>
-            Estimate a realistic timeline, account for inflation, and see the monthly change needed to
-            reach big purchases sooner.
+            Enter your income, spending, and savings to see when you can afford things like a car,
+            house payment, emergency fund, or anything else.
           </p>
         </div>
         <div className="hero-stats" aria-label="Current result summary">
@@ -76,7 +95,7 @@ export default function App() {
             <strong>{finishSummary}</strong>
           </div>
           <div>
-            <span>Estimated future price</span>
+            <span>Expected future price</span>
             <strong>{currency(result.futureGoalCostAtTarget)}</strong>
           </div>
         </div>
@@ -87,13 +106,16 @@ export default function App() {
           <div className="panel-heading">
             <Target size={22} aria-hidden="true" />
             <div>
-              <h2>Goal details</h2>
-              <p>Start with a goal, then tune your monthly reality.</p>
+              <h2>Your goal and money</h2>
+              <p>Use monthly numbers you roughly know. Exact figures are not required.</p>
             </div>
           </div>
 
           <label>
-            Goal type
+            <FieldText
+              label="What are you saving for?"
+              help="Choose a common goal or select Other to type your own, like wedding, laptop, fees, or Umrah."
+            />
             <select value={goalType} onChange={(event) => updateGoalType(event.target.value)}>
               {goalOptions.map((option) => (
                 <option key={option.label} value={option.label}>
@@ -105,9 +127,9 @@ export default function App() {
 
           {goalType === "Other" && (
             <label>
-              Goal name
+              <FieldText label="Goal name" help="Write the thing you want to save for." />
               <input
-                placeholder="Example: Wedding, laptop, vacation"
+                placeholder="Example: wedding, laptop, school fees"
                 value={form.goalName}
                 onChange={(event) => updateField("goalName", event.target.value)}
               />
@@ -116,7 +138,7 @@ export default function App() {
 
           <div className="field-grid">
             <label>
-              Goal amount
+              <FieldText label="Price today" help="How much this goal costs right now in Pakistani rupees." />
               <input
                 inputMode="numeric"
                 value={form.goalAmount}
@@ -124,7 +146,7 @@ export default function App() {
               />
             </label>
             <label>
-              Current savings
+              <FieldText label="Savings you have now" help="Money already saved for this goal." />
               <input
                 inputMode="numeric"
                 value={form.currentSavings}
@@ -132,7 +154,7 @@ export default function App() {
               />
             </label>
             <label>
-              Monthly income
+              <FieldText label="Monthly income" help="Your monthly take-home income, pocket money, salary, business income, or household contribution." />
               <input
                 inputMode="numeric"
                 value={form.monthlyIncome}
@@ -140,7 +162,7 @@ export default function App() {
               />
             </label>
             <label>
-              Monthly expenses
+              <FieldText label="Monthly spending" help="Your regular monthly costs, such as rent, food, transport, bills, fees, and personal spending." />
               <input
                 inputMode="numeric"
                 value={form.monthlyExpenses}
@@ -148,7 +170,7 @@ export default function App() {
               />
             </label>
             <label>
-              Annual raise %
+              <FieldText label="Yearly income increase %" help="Expected yearly increase in income. Use 0 if you are not sure." />
               <input
                 inputMode="decimal"
                 value={form.annualRaiseRate}
@@ -156,7 +178,7 @@ export default function App() {
               />
             </label>
             <label>
-              Inflation %
+              <FieldText label="Yearly price increase %" help="Expected yearly increase in prices. Pakistan inflation can change, so this is only an estimate." />
               <input
                 inputMode="decimal"
                 value={form.annualInflationRate}
@@ -165,80 +187,91 @@ export default function App() {
             </label>
           </div>
 
-          <label className="target-slider">
-            <span>
-              Target timeline <strong>{form.targetMonths} months</strong>
-            </span>
-            <input
-              type="range"
-              min="6"
-              max="120"
-              step="1"
-              value={form.targetMonths}
-              onChange={(event) => updateField("targetMonths", event.target.value)}
+          <label>
+            <FieldText
+              label="When do you want it?"
+              help="Pick the time you hope to reach the goal. This is used to check if you are on track."
             />
+            <select value={timelineChoice} onChange={(event) => updateTimeline(event.target.value)}>
+              {timelineOptions.map((option) => (
+                <option key={option.label} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
           </label>
+
+          {timelineChoice === 0 && (
+            <label>
+              <FieldText label="Custom months" help="Enter the number of months you want to save for." />
+              <input
+                inputMode="numeric"
+                value={form.targetMonths}
+                onChange={(event) => updateField("targetMonths", event.target.value)}
+              />
+            </label>
+          )}
         </form>
 
         <section className="results" aria-label="Goal calculation results">
           <div className={result.isOnTrack ? "status on-track" : "status needs-work"}>
             <div>
-              <p className="eyebrow">Track check</p>
-              <h2>{result.isOnTrack ? "You are on track for your target." : "You need a small plan change."}</h2>
+              <p className="eyebrow">Quick answer</p>
+              <h2>{result.isOnTrack ? "Your current plan can work." : "You may need to save or earn more."}</h2>
             </div>
-            <strong>{result.isOnTrack ? "On track" : `${currency(result.extraNeededPerMonth)} / mo short`}</strong>
+            <strong>{result.isOnTrack ? "Looks good" : `${currency(result.extraNeededPerMonth)} / month short`}</strong>
           </div>
 
           <div className="metric-grid">
             <Metric
               icon={<CalendarDays size={22} />}
-              label="Estimated finish date"
+              label="When you can buy it"
               value={result.goalDateLabel ?? "Not yet"}
-              helper="The first month your projected savings can cover the future price. Formula: month where savings >= future price."
+              helper="The first month your savings can cover the expected future price. Formula: savings >= future price."
             />
             <Metric
               icon={<TrendingUp size={22} />}
-              label="Future goal price"
+              label="Expected future price"
               value={currency(result.futureGoalCostAtTarget)}
-              helper="What your goal may cost by your selected timeline. Formula: goal amount adjusted by inflation each month."
+              helper="What this goal may cost by your chosen time. Formula: price today + estimated price increase over time."
             />
             <Metric
               icon={<WalletCards size={22} />}
-              label="Money left each month"
+              label="Money left monthly"
               value={currency(result.monthlySurplus)}
-              helper="The amount available before extra saving choices. Formula: monthly income - monthly expenses."
+              helper="Money left after regular spending. Formula: monthly income - monthly spending."
             />
             <Metric
               icon={<PiggyBank size={22} />}
-              label="Savings by target date"
+              label="Savings by chosen time"
               value={currency(result.projectedSavingsAtTarget)}
-              helper="Your projected savings at the timeline you selected. Formula: current savings + monthly leftover over time, including raises and inflation."
+              helper="How much you may have saved by your chosen time. Formula: savings now + monthly leftover over time."
             />
           </div>
 
           <div className="panel advice">
-            <h2>To reach it sooner</h2>
+            <h2>What can help?</h2>
             {result.extraNeededPerMonth > 0 ? (
               <div className="advice-grid">
                 <div>
-                  <span>Save more <InfoTooltip text="Extra amount to put aside monthly. Formula: needed monthly savings - projected monthly savings." /></span>
+                  <span>Save extra <InfoTooltip text="Extra money to keep aside every month to reach your chosen time." /></span>
                   <strong>{currency(result.extraNeededPerMonth)} / month</strong>
-                  <p>Move this much more into savings each month to hit your selected timeline.</p>
+                  <p>Try to put this extra amount into savings each month.</p>
                 </div>
                 <div>
-                  <span>Earn more <InfoTooltip text="Extra monthly income that would close the same gap if expenses stay the same." /></span>
+                  <span>Earn extra <InfoTooltip text="Extra monthly income needed if your spending stays the same." /></span>
                   <strong>{currency(result.suggestedExtraIncomePerMonth)} / month</strong>
-                  <p>A side income or raise of this amount creates the same improvement.</p>
+                  <p>A small side income, tuition, freelance work, or raise could help.</p>
                 </div>
                 <div>
-                  <span>Spend less <InfoTooltip text="Monthly expense reduction that would close the same gap if income stays the same." /></span>
+                  <span>Spend less <InfoTooltip text="Monthly spending cut needed if your income stays the same." /></span>
                   <strong>{currency(result.suggestedExpenseCutPerMonth)} / month</strong>
-                  <p>Cutting recurring expenses by this amount also closes the gap.</p>
+                  <p>Reducing regular expenses by this amount can close the gap.</p>
                 </div>
               </div>
             ) : (
               <p className="success-note">
-                Your current plan reaches the selected timeline. Keeping the surplus consistent is the main job.
+                Your current plan reaches your chosen time. Try to keep saving consistently.
               </p>
             )}
           </div>
@@ -246,6 +279,21 @@ export default function App() {
         </section>
       </section>
     </main>
+  );
+}
+
+function formatMonths(months: number): string {
+  if (months < 12) return `${months} months`;
+  const years = months / 12;
+  return Number.isInteger(years) ? `${years} year${years === 1 ? "" : "s"}` : `${months} months`;
+}
+
+function FieldText({ label, help }: { label: string; help: string }) {
+  return (
+    <span className="field-label">
+      {label}
+      <InfoTooltip text={help} />
+    </span>
   );
 }
 

@@ -4,15 +4,15 @@
 
 1. As a user, I want to select a common goal type or enter my own goal so the calculator reflects what I am actually planning for.
 
-2. As a user, I want to enter my current savings so the estimate starts from my real position.
+2. As a user, I want to enter Pakistani rupee amounts so the estimate feels relevant to my real life.
 
-3. As a user, I want to enter my monthly income and expenses so the app can estimate how much I can save each month.
+3. As a user, I want to enter my monthly income and spending so the app can estimate how much I can save each month.
 
 4. As a user, I want to include expected salary raises so the estimate can reflect future income growth.
 
 5. As a user, I want to include inflation so the app can show that the goal may cost more in the future.
 
-6. As a user, I want to choose a target timeline so I can check whether my goal is realistic by a specific date.
+6. As a user, I want to choose a simple target timeline like 1 year or 1.5 years so I can check whether my goal is realistic.
 
 7. As a user, I want to see the estimated date when I can reach my goal so I can plan with confidence.
 
@@ -20,7 +20,7 @@
 
 9. As a user, I want the app to suggest how much extra I need to save, earn, or cut each month so I can take action.
 
-10. As a user, I want short helper explanations for each metric so I can understand what the number means and how it is calculated.
+10. As a user, I want short helper explanations for each input and result so I can understand what the number means and how it is calculated.
 
 ## Future Stories
 

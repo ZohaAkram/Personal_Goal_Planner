@@ -2,13 +2,13 @@
 
 ## Job 1: Estimate When I Can Afford A Goal
 
-When I am thinking about a major purchase or savings target, I want to enter my goal amount, savings, income, and expenses so I can understand approximately when I can afford it.
+When I am thinking about a major purchase or savings target, I want to enter my goal amount in Pakistani rupees, savings, income, and spending so I can understand approximately when I can afford it.
 
 ### Features Supporting This Job
 
-- Goal amount input
+- Goal amount input in Pakistani rupees
 - Current savings input
-- Monthly income and expenses inputs
+- Monthly income and spending inputs
 - Estimated months-to-goal result
 - Estimated calendar month and year
 - Info helper explaining how the estimate is calculated
@@ -29,7 +29,7 @@ When I have a target timeline in mind, I want the app to tell me whether my curr
 
 ### Features Supporting This Job
 
-- Target timeline slider
+- Common target timeline dropdown, such as 6 months, 1 year, 1.5 years, 2 years, 3 years, and custom months
 - On-track status
 - Savings by selected target timeline
 - Shortfall calculation

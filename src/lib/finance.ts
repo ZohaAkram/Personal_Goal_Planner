@@ -36,9 +36,9 @@ export type CalculatorResult = {
 const MAX_MONTHS = 600;
 
 export function currency(value: number): string {
-  return new Intl.NumberFormat("en-US", {
+  return new Intl.NumberFormat("en-PK", {
     style: "currency",
-    currency: "USD",
+    currency: "PKR",
     maximumFractionDigits: 0
   }).format(Math.max(0, value));
 }

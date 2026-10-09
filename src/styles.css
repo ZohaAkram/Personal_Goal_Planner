@@ -200,15 +200,11 @@ select:focus {
   gap: 0 12px;
 }
 
-.target-slider span {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.target-slider input {
-  padding: 0;
-  accent-color: #8ee0c3;
+.field-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  line-height: 1.35;
 }
 
 .results {
