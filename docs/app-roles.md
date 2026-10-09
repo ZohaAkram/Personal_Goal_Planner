@@ -2,12 +2,12 @@
 
 ## Primary User: Everyday Goal Planner
 
-Someone in Pakistan who wants to understand whether a large purchase or savings goal is realistic. They may be planning for a car, house down payment, emergency fund, school fees, wedding expense, appliance, education cost, or another personal milestone.
+Someone who wants to understand whether a large purchase or savings goal is realistic. They may be planning for a car, house down payment, emergency fund, school fees, wedding expense, appliance, education cost, or another personal milestone.
 
 ### Needs
 
 - Enter simple financial inputs without needing accounting knowledge.
-- Work with Pakistani rupee amounts.
+- Choose a relevant currency for their own context.
 - See a clear estimated date for reaching the goal.
 - Understand how inflation can change the future cost.
 - Know whether their current saving pace is enough.
@@ -15,7 +15,7 @@ Someone in Pakistan who wants to understand whether a large purchase or savings 
 
 ## Secondary User: Household Decision Partner
 
-A spouse, partner, parent, student, housewife, or family member involved in shared financial planning.
+A spouse, partner, parent, student, homemaker, or family member involved in shared financial planning.
 
 ### Needs
 

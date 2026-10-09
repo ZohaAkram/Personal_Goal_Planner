@@ -4,7 +4,7 @@
 
 1. As a user, I want to select a common goal type or enter my own goal so the calculator reflects what I am actually planning for.
 
-2. As a user, I want to enter Pakistani rupee amounts so the estimate feels relevant to my real life.
+2. As a user, I want to choose my currency so the estimate feels relevant to my real life.
 
 3. As a user, I want to enter my monthly income and spending so the app can estimate how much I can save each month.
 
@@ -26,7 +26,7 @@
 
 1. As a user, I want to save multiple goals so I can compare priorities.
 
-2. As a user, I want to change currency so the calculator matches my country.
+2. As a user, I want exchange-rate conversion so I can compare the same goal across currencies.
 
 3. As a user, I want to include investment growth so long-term goals can be modeled more realistically.
 

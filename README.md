@@ -1,19 +1,19 @@
 # Personal Financial Goal Calculator
 
-An MVP web app for Pakistani users that helps everyday people estimate how long it may take to reach a financial goal such as buying a car, saving for a house down payment, building an emergency fund, paying fees, or planning a family expense.
+An MVP web app for everyday users that helps estimate how long it may take to reach a financial goal such as buying a car, saving for a house down payment, building an emergency fund, paying fees, or planning a family expense.
 
-Users enter a goal type, goal amount in Pakistani rupees, current savings, monthly income, monthly spending, expected yearly income increase, expected yearly price increase, and a simple target timeline. The calculator estimates:
+Users choose a currency and enter a goal type, goal amount, current savings, monthly income, monthly spending, expected yearly income increase, expected yearly price increase, and a simple target timeline. The calculator estimates:
 
 - when the goal may be reachable,
 - what the goal could cost in the future after inflation,
 - whether the user is on track for their selected timeline,
 - how much extra they may need to save, earn, or cut from expenses each month.
 
-The MVP uses a minimal dark interface, simple goal presets, an "Other" goal option, common timeline choices such as 1 year and 1.5 years, and small info helpers that explain each field and result in plain language.
+The MVP uses a minimal dark interface, simple goal presets, an "Other" goal option, a currency selector, common timeline choices such as 1 year and 1.5 years, and small info helpers that explain each field and result in plain language.
 
 ## Who It Is For
 
-This MVP is for students, women and men managing household money, young earners, housewives, and middle-income families who want a plain-language planning tool before making a large purchase or savings commitment. It is designed for clarity over financial complexity and should not be treated as professional financial advice.
+This MVP is for students, women and men managing household money, young earners, homemakers, and middle-income families who want a plain-language planning tool before making a large purchase or savings commitment. It is designed for clarity over financial complexity and should not be treated as professional financial advice.
 
 ## Prerequisites
 
@@ -110,7 +110,7 @@ All source files, tests, documentation, and project configuration were created d
 
 ## Development Assumptions
 
-- Currency is displayed in Pakistani rupees for the MVP.
+- Currency can be selected by the user. The app formats values in the selected currency but does not convert exchange rates.
 - The selected target timeline controls "Savings by chosen time"; the estimated finish date may be earlier.
 - Inflation affects both the future goal amount and monthly expenses.
 - Expected raises affect monthly income gradually using a monthly equivalent of the annual raise rate.

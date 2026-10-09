@@ -1,6 +1,17 @@
 import { CalendarDays, CircleHelp, PiggyBank, Target, TrendingUp, WalletCards } from "lucide-react";
 import { useMemo, useState } from "react";
-import { calculateGoal, currency, type CalculatorInput } from "./lib/finance";
+import { calculateGoal, currency, type CalculatorInput, type CurrencyOption } from "./lib/finance";
+
+const currencyOptions: CurrencyOption[] = [
+  { code: "PKR", label: "Pakistani rupee (PKR)", locale: "en-PK" },
+  { code: "USD", label: "US dollar (USD)", locale: "en-US" },
+  { code: "GBP", label: "British pound (GBP)", locale: "en-GB" },
+  { code: "EUR", label: "Euro (EUR)", locale: "en-IE" },
+  { code: "AED", label: "UAE dirham (AED)", locale: "en-AE" },
+  { code: "SAR", label: "Saudi riyal (SAR)", locale: "en-SA" },
+  { code: "INR", label: "Indian rupee (INR)", locale: "en-IN" },
+  { code: "BDT", label: "Bangladeshi taka (BDT)", locale: "en-BD" }
+];
 
 const goalOptions = [
   { label: "Car", goalName: "Car", amount: 2500000 },
@@ -38,7 +49,9 @@ export default function App() {
   const [form, setForm] = useState<CalculatorInput>(initialInput);
   const [goalType, setGoalType] = useState("Car");
   const [timelineChoice, setTimelineChoice] = useState(36);
+  const [selectedCurrency, setSelectedCurrency] = useState(currencyOptions[0]);
   const result = useMemo(() => calculateGoal(form), [form]);
+  const money = (value: number) => currency(value, selectedCurrency);
 
   function updateField(field: keyof CalculatorInput, value: string) {
     setForm((current) => ({
@@ -67,13 +80,6 @@ export default function App() {
     }
   }
 
-  const finishSummary =
-    result.monthsToGoal === null
-      ? "Not reachable within 50 years with these inputs"
-      : result.monthsToGoal === 0
-        ? "You can afford this goal today"
-        : formatMonths(result.monthsToGoal);
-
   return (
     <main className="app-shell">
       <section className="hero">
@@ -87,16 +93,16 @@ export default function App() {
         </div>
         <div className="hero-stats" aria-label="Current result summary">
           <div>
-            <span>Goal</span>
-            <strong>{form.goalName || "Your goal"}</strong>
+            <span>No login needed</span>
+            <strong>Works in your browser</strong>
           </div>
           <div>
-            <span>Estimated finish</span>
-            <strong>{finishSummary}</strong>
+            <span>Use any currency</span>
+            <strong>{selectedCurrency.code}</strong>
           </div>
           <div>
-            <span>Expected future price</span>
-            <strong>{currency(result.futureGoalCostAtTarget)}</strong>
+            <span>Best for quick planning</span>
+            <strong>Simple estimates</strong>
           </div>
         </div>
       </section>
@@ -110,6 +116,26 @@ export default function App() {
               <p>Use monthly numbers you roughly know. Exact figures are not required.</p>
             </div>
           </div>
+
+          <label>
+            <FieldText
+              label="Currency"
+              help="Choose the currency you want to use. The app does not convert amounts; it formats the numbers you enter in this currency."
+            />
+            <select
+              value={selectedCurrency.code}
+              onChange={(event) => {
+                const nextCurrency = currencyOptions.find((option) => option.code === event.target.value);
+                if (nextCurrency) setSelectedCurrency(nextCurrency);
+              }}
+            >
+              {currencyOptions.map((option) => (
+                <option key={option.code} value={option.code}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </label>
 
           <label>
             <FieldText
@@ -138,7 +164,7 @@ export default function App() {
 
           <div className="field-grid">
             <label>
-              <FieldText label="Price today" help="How much this goal costs right now in Pakistani rupees." />
+              <FieldText label="Price today" help={`How much this goal costs right now in ${selectedCurrency.code}.`} />
               <input
                 inputMode="numeric"
                 value={form.goalAmount}
@@ -219,7 +245,7 @@ export default function App() {
               <p className="eyebrow">Quick answer</p>
               <h2>{result.isOnTrack ? "Your current plan can work." : "You may need to save or earn more."}</h2>
             </div>
-            <strong>{result.isOnTrack ? "Looks good" : `${currency(result.extraNeededPerMonth)} / month short`}</strong>
+            <strong>{result.isOnTrack ? "Looks good" : `${money(result.extraNeededPerMonth)} / month short`}</strong>
           </div>
 
           <div className="metric-grid">
@@ -232,19 +258,19 @@ export default function App() {
             <Metric
               icon={<TrendingUp size={22} />}
               label="Expected future price"
-              value={currency(result.futureGoalCostAtTarget)}
+              value={money(result.futureGoalCostAtTarget)}
               helper="What this goal may cost by your chosen time. Formula: price today + estimated price increase over time."
             />
             <Metric
               icon={<WalletCards size={22} />}
               label="Money left monthly"
-              value={currency(result.monthlySurplus)}
+              value={money(result.monthlySurplus)}
               helper="Money left after regular spending. Formula: monthly income - monthly spending."
             />
             <Metric
               icon={<PiggyBank size={22} />}
               label="Savings by chosen time"
-              value={currency(result.projectedSavingsAtTarget)}
+              value={money(result.projectedSavingsAtTarget)}
               helper="How much you may have saved by your chosen time. Formula: savings now + monthly leftover over time."
             />
           </div>
@@ -255,17 +281,17 @@ export default function App() {
               <div className="advice-grid">
                 <div>
                   <span>Save extra <InfoTooltip text="Extra money to keep aside every month to reach your chosen time." /></span>
-                  <strong>{currency(result.extraNeededPerMonth)} / month</strong>
+                  <strong>{money(result.extraNeededPerMonth)} / month</strong>
                   <p>Try to put this extra amount into savings each month.</p>
                 </div>
                 <div>
                   <span>Earn extra <InfoTooltip text="Extra monthly income needed if your spending stays the same." /></span>
-                  <strong>{currency(result.suggestedExtraIncomePerMonth)} / month</strong>
+                  <strong>{money(result.suggestedExtraIncomePerMonth)} / month</strong>
                   <p>A small side income, tuition, freelance work, or raise could help.</p>
                 </div>
                 <div>
                   <span>Spend less <InfoTooltip text="Monthly spending cut needed if your income stays the same." /></span>
-                  <strong>{currency(result.suggestedExpenseCutPerMonth)} / month</strong>
+                  <strong>{money(result.suggestedExpenseCutPerMonth)} / month</strong>
                   <p>Reducing regular expenses by this amount can close the gap.</p>
                 </div>
               </div>
@@ -280,12 +306,6 @@ export default function App() {
       </section>
     </main>
   );
-}
-
-function formatMonths(months: number): string {
-  if (months < 12) return `${months} months`;
-  const years = months / 12;
-  return Number.isInteger(years) ? `${years} year${years === 1 ? "" : "s"}` : `${months} months`;
 }
 
 function FieldText({ label, help }: { label: string; help: string }) {

@@ -2,11 +2,12 @@
 
 ## Job 1: Estimate When I Can Afford A Goal
 
-When I am thinking about a major purchase or savings target, I want to enter my goal amount in Pakistani rupees, savings, income, and spending so I can understand approximately when I can afford it.
+When I am thinking about a major purchase or savings target, I want to choose my currency and enter my goal amount, savings, income, and spending so I can understand approximately when I can afford it.
 
 ### Features Supporting This Job
 
-- Goal amount input in Pakistani rupees
+- Currency selector
+- Goal amount input
 - Current savings input
 - Monthly income and spending inputs
 - Estimated months-to-goal result

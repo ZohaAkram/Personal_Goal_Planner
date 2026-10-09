@@ -35,10 +35,16 @@ export type CalculatorResult = {
 
 const MAX_MONTHS = 600;
 
-export function currency(value: number): string {
-  return new Intl.NumberFormat("en-PK", {
+export type CurrencyOption = {
+  code: string;
+  label: string;
+  locale: string;
+};
+
+export function currency(value: number, option: CurrencyOption): string {
+  return new Intl.NumberFormat(option.locale, {
     style: "currency",
-    currency: "PKR",
+    currency: option.code,
     maximumFractionDigits: 0
   }).format(Math.max(0, value));
 }
