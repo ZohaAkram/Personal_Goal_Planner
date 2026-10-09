@@ -68,6 +68,10 @@ export default function App() {
   const [selectedCurrency, setSelectedCurrency] = useState(currencyOptions[0]);
   const result = useMemo(() => calculateGoal(form), [form]);
   const money = (value: number) => currency(value, selectedCurrency);
+  const timelineLabel =
+    timelineChoice === 0
+      ? `${form.targetMonths} months`
+      : timelineOptions.find((option) => option.value === timelineChoice)?.label ?? `${form.targetMonths} months`;
 
   function updateField(field: keyof CalculatorInput, value: string) {
     setForm((current) => ({
@@ -127,18 +131,18 @@ export default function App() {
             house payment, emergency fund, or anything else.
           </p>
         </div>
-        <div className="hero-stats" aria-label="Current result summary">
+        <div className="hero-stats" aria-label="Current planning setup">
           <div>
-            <span>No login needed</span>
-            <strong>Works in your browser</strong>
-          </div>
-          <div>
-            <span>Use any currency</span>
+            <span>Currency selected</span>
             <strong>{selectedCurrency.code}</strong>
           </div>
           <div>
-            <span>Best for quick planning</span>
-            <strong>Simple estimates</strong>
+            <span>Goal timeline</span>
+            <strong>{timelineLabel}</strong>
+          </div>
+          <div>
+            <span>Can save monthly</span>
+            <strong>{money(result.monthlySurplus)}</strong>
           </div>
         </div>
       </section>
