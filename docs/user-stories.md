@@ -1,35 +1,248 @@
 # User Stories
 
-## MVP Stories
+## S-1: Select A Currency
 
-1. As a user, I want to select a common goal type or enter my own goal so the calculator reflects what I am actually planning for.
+Job: J-7
 
-2. As a user, I want to choose my currency so the estimate feels relevant to my real life.
+Status: Implemented
 
-3. As a user, I want to enter my monthly income and spending so the app can estimate how much I can save each month.
+As an everyday goal planner, I want to choose a currency, so that all money values are displayed in a familiar format.
 
-4. As a user, I want to include expected salary raises so the estimate can reflect future income growth.
+Acceptance criteria:
 
-5. As a user, I want the app to suggest a yearly price increase based on my selected currency so the future price estimate starts from a reasonable assumption.
+- Given the app is open, when I choose PKR, USD, GBP, EUR, AED, SAR, INR, or BDT, then result values are formatted using that selected currency.
+- Given I change currency, when a preset goal is selected, then the preset goal amount changes to that currency's preset amount.
+- Given I change currency, when I had selected Other as the goal type, then my custom goal amount is not converted or replaced.
+- Given I change currency, when the yearly price increase field updates, then it uses the selected currency's suggested inflation default.
+- Given the app formats currency, when a calculated money value is negative, then it displays as zero because the formatter clamps display values to zero.
 
-6. As a user, I want to choose a simple target timeline like 1 year or 1.5 years so I can check whether my goal is realistic.
+## S-2: Choose A Preset Goal
 
-7. As a user, I want to see the estimated date when I can reach my goal so I can plan with confidence.
+Job: J-1
 
-8. As a user, I want to see whether I am on track so I do not have to interpret raw numbers myself.
+Status: Implemented
 
-9. As a user, I want the app to suggest how much extra I need to save, earn, or cut each month so I can take action.
+As an everyday goal planner, I want to choose a common goal, so that I can start with a reasonable sample goal amount.
 
-10. As a user, I want short helper explanations for each input and result so I can understand what the number means and how it is calculated.
+Acceptance criteria:
 
-## Future Stories
+- Given the goal type is Car, House down payment, or Emergency fund, when I select it, then the goal name and goal amount update to the preset for the selected currency.
+- Given I change from one preset to another, when the selection changes, then the calculation updates immediately.
+- Given a preset goal is selected, when I change currency, then the preset amount updates for the new currency.
 
-1. As a user, I want to save multiple goals so I can compare priorities.
+## S-3: Enter A Custom Goal
 
-2. As a user, I want exchange-rate conversion so I can compare the same goal across currencies.
+Job: J-1
 
-3. As a user, I want to include investment growth so long-term goals can be modeled more realistically.
+Status: Implemented
 
-4. As a user, I want to export or print my plan so I can discuss it with someone else.
+As an everyday goal planner, I want to enter my own goal name, so that I can plan for goals outside the preset list.
 
-5. As a user, I want scenario comparisons so I can compare different monthly saving choices side by side.
+Acceptance criteria:
+
+- Given I select Other, when the custom goal field appears, then I can type a goal name.
+- Given I type a custom goal name, when the form updates, then the displayed goal name uses my typed text where the app references the goal internally.
+- Given I select Other, when the goal amount is shown, then it uses the Other preset amount for the selected currency until I edit it.
+
+## S-4: Enter Money Assumptions
+
+Job: J-1
+
+Status: Implemented
+
+As an everyday goal planner, I want to enter price, savings, income, and spending, so that the app can estimate my savings path.
+
+Acceptance criteria:
+
+- Given I edit price today, savings now, monthly income, or monthly spending, when the value is numeric, then calculations update immediately.
+- Given I enter commas in a numeric field, when the value is parsed, then commas are ignored.
+- Given I leave a numeric field empty or enter non-numeric text, when the app calculates, then that field is treated as zero.
+- Given I enter a negative numeric value, when the app calculates, then the calculation clamps that value to zero.
+- Given I enter a very large number, when the app calculates, then it attempts to calculate and format the result without a custom validation error message.
+
+## S-5: Enter Growth Assumptions
+
+Job: J-3
+
+Status: Implemented
+
+As an everyday goal planner, I want to enter yearly income increase and yearly price increase, so that the projection can account for changing income and prices.
+
+Acceptance criteria:
+
+- Given I edit yearly income increase, when the value is numeric, then projected monthly income grows using a monthly equivalent of that annual percentage.
+- Given I edit yearly price increase, when the value is numeric, then projected monthly expenses and future goal price grow using a monthly equivalent of that annual percentage.
+- Given I select a currency, when the app updates the yearly price increase field, then it uses the suggested default for that currency.
+- Given I enter a negative growth percentage, when the app calculates, then the calculation clamps that percentage to zero.
+- Given I enter an empty or non-numeric growth value, when the app calculates, then that value is treated as zero.
+
+## S-6: Choose A Target Timeline
+
+Job: J-4
+
+Status: Implemented
+
+As an everyday goal planner, I want to choose a target timeline, so that I can check whether my plan reaches the goal by that time.
+
+Acceptance criteria:
+
+- Given I choose 6 months, 1 year, 1.5 years, 2 years, 3 years, or 5 years, when the selection changes, then target months update to 6, 12, 18, 24, 36, or 60.
+- Given I choose Custom months, when the custom months input appears, then I can type a custom number of months.
+- Given I enter zero, a negative value, an empty value, or non-numeric text for custom months, when the app calculates, then the calculation uses at least 1 month.
+- Given I enter a decimal custom month value, when the app calculates, then the target month value is rounded to the nearest month.
+- Given I change the timeline, when the result updates, then on-track status, future price, projected savings, and monthly gap update immediately.
+
+## S-7: See Whether The Plan Is On Track
+
+Job: J-4
+
+Status: Implemented
+
+As an everyday goal planner, I want a clear on-track message, so that I can quickly understand whether my current plan reaches my chosen time.
+
+Acceptance criteria:
+
+- Given projected savings at the chosen time are greater than or equal to the future goal price, when results render, then the app shows that the current plan can work.
+- Given projected savings at the chosen time are less than the future goal price, when results render, then the app shows that I may need to save or earn more.
+- Given the result is not on track, when the badge appears, then it shows the calculated monthly shortfall formatted in the selected currency.
+
+## S-8: See Estimated Finish Date
+
+Job: J-1
+
+Status: Implemented
+
+As an everyday goal planner, I want to see when I can buy the goal, so that I can understand the likely timing.
+
+Acceptance criteria:
+
+- Given current savings are already greater than or equal to the goal amount, when the app calculates, then months to goal is zero.
+- Given projected savings reach or exceed future goal price within the calculation window, when results render, then the app shows a month and year as the estimated finish date.
+- Given projected savings do not reach future goal price within 600 months, when results render, then the app shows Not yet.
+- Given the app formats the finish date, when it displays the date, then it uses month and year format.
+
+## S-9: See Future Goal Price
+
+Job: J-3
+
+Status: Implemented
+
+As an everyday goal planner, I want to see the expected future price, so that I can plan for price increases.
+
+Acceptance criteria:
+
+- Given a goal amount and yearly price increase, when the app calculates, then future goal price is the goal amount grown by the monthly equivalent of the yearly price increase over the target months.
+- Given yearly price increase is zero, when the app calculates, then future goal price equals the goal amount.
+- Given the selected currency changes, when the result renders, then the future price is formatted in the selected currency.
+
+## S-10: See Monthly Saving Capacity
+
+Job: J-1
+
+Status: Implemented
+
+As an everyday goal planner, I want to see how much money is left monthly, so that I understand my current saving capacity.
+
+Acceptance criteria:
+
+- Given monthly income and monthly spending are entered, when the app calculates, then money left monthly equals monthly income minus monthly spending.
+- Given monthly spending is greater than monthly income, when the app calculates, then the underlying monthly surplus is negative.
+- Given a money result is formatted and the value is negative, when displayed through the currency formatter, then it appears as zero.
+
+## S-11: See Savings By Chosen Time
+
+Job: J-4
+
+Status: Implemented
+
+As an everyday goal planner, I want to see projected savings by my chosen time, so that I can compare my expected savings with the future goal price.
+
+Acceptance criteria:
+
+- Given current savings and monthly contribution projections, when the app calculates, then projected savings by chosen time equals the projection value for the selected target month.
+- Given income increase is greater than zero, when the app projects savings, then monthly income increases over time.
+- Given price increase is greater than zero, when the app projects savings, then monthly expenses increase over time.
+- Given the target month is beyond the stored projection list, when the app calculates, then it uses the last available projection point.
+
+## S-12: See Monthly Gap Recommendations
+
+Job: J-5
+
+Status: Implemented
+
+As an everyday goal planner, I want to see how much extra I need each month, so that I can decide whether to save more, earn more, or spend less.
+
+Acceptance criteria:
+
+- Given the plan is short at the chosen target time, when results render, then the app shows Save extra, Earn extra, and Spend less recommendations.
+- Given extra needed per month is calculated, when recommendations render, then Save extra, Earn extra, and Spend less show the same monthly amount.
+- Given the plan reaches the chosen timeline, when results render, then the app shows a success note instead of the three recommendation cards.
+- Given the monthly gap is shown, when currency changes, then the amount is formatted in the selected currency.
+
+## S-13: Use Helper Text
+
+Job: J-6
+
+Status: Implemented
+
+As an informal financial guide, I want helper explanations for inputs and results, so that I can explain the calculator to a first-time user.
+
+Acceptance criteria:
+
+- Given an input label has an info icon, when the user hovers or focuses it, then helper text is available.
+- Given a result metric has an info icon, when the user hovers or focuses it, then helper text explains the meaning or formula.
+- Given recommendation labels have info icons, when the user hovers or focuses them, then helper text explains the recommendation.
+
+## S-14: Prevent Invalid Form Submission Errors
+
+Job: J-1
+
+Status: Implemented
+
+As an everyday goal planner, I want the app to continue calculating when I make simple input mistakes, so that I can correct my numbers without losing the page.
+
+Acceptance criteria:
+
+- Given a numeric input is empty, when the app recalculates, then it treats the value as zero instead of throwing an error.
+- Given a numeric input contains non-numeric text, when the app recalculates, then it treats the value as zero instead of throwing an error.
+- Given a negative input is entered, when the app recalculates, then the calculation clamps it to zero where the finance logic consumes it.
+- Given the app encounters an unreachable goal within the calculation window, when results render, then it displays Not yet rather than crashing.
+
+## S-15: Convert Currency Amounts Automatically
+
+Job: J-7
+
+Status: Not implemented
+
+As an everyday goal planner, I want the app to convert existing amounts when I change currency, so that the same financial plan is translated across currencies.
+
+Acceptance criteria:
+
+- Given I have entered custom amounts, when I change currency, then the app should convert my entered values using an exchange rate.
+- Given no exchange-rate source exists in the app, when currency changes now, then custom amounts remain numerically unchanged and only formatting changes.
+
+## S-16: Save Multiple Goals
+
+Job: J-2
+
+Status: Not implemented
+
+As a household planning partner, I want to save multiple goals, so that my household can compare them later.
+
+Acceptance criteria:
+
+- Given I create a goal estimate, when I leave or refresh the app, then the app should persist the goal for later review.
+- Given the current implementation has no persistence, when I refresh the page, then the app resets to its initial in-memory state.
+
+## S-17: Show Validation Messages
+
+Job: J-6
+
+Status: Not implemented
+
+As an informal financial guide, I want visible validation messages for invalid numbers, so that users understand what to fix.
+
+Acceptance criteria:
+
+- Given a user enters invalid, empty, negative, extremely large, or unrealistic values, when the app validates the form, then it should show field-level guidance.
+- Given the current implementation, when those values are entered, then the app coerces or clamps values in calculation without displaying field-level validation messages.

@@ -1,39 +1,32 @@
 # App Roles
 
-## Primary User: Everyday Goal Planner
+## R-1: Everyday Goal Planner
 
-Someone who wants to understand whether a large purchase or savings goal is realistic. They may be planning for a car, house down payment, emergency fund, school fees, wedding expense, appliance, education cost, or another personal milestone.
+A everyday goal planner is an individual saving for a personal goal such as a car, house down payment, emergency fund, school fees, wedding, laptop, or other purchase. They can choose a currency, select or name a goal, enter money assumptions, choose a timeline, read calculation results, and review simple helper text. They must never be led to treat the estimate as guaranteed financial advice.
 
-### Needs
+Distinct needs:
 
-- Enter simple financial inputs without needing accounting knowledge.
-- Choose a relevant currency for their own context.
-- See a clear estimated date for reaching the goal.
-- Understand how inflation can change the future cost.
-- Know whether their current saving pace is enough.
-- See practical next steps when they are not on track.
+- Understand whether a goal is realistic without using a spreadsheet.
+- Use plain labels for income, spending, savings, price growth, and target time.
+- See an estimated finish date, future price, projected savings, and monthly shortfall.
+- Adjust assumptions repeatedly and immediately see updated results.
 
-## Secondary User: Household Decision Partner
+## R-2: Household Planning Partner
 
-A spouse, partner, parent, student, homemaker, or family member involved in shared financial planning.
+A household planning partner is a spouse, parent, student, homemaker, or family member helping compare a shared savings target against monthly household income and spending. They can use the same calculator inputs and result cards to discuss tradeoffs with another person. They must never need an account, saved profile, or private financial record to use the app.
 
-### Needs
+Distinct needs:
 
-- Compare goal timelines quickly.
-- Discuss tradeoffs around spending, income, and timeline.
-- Use plain-language results instead of complex spreadsheets.
-- Use simple help text to understand fields and formulas.
+- Discuss a shared target in simple language.
+- Compare whether income, spending, and timeline assumptions feel realistic.
+- Understand how much extra saving, income, or spending reduction may be needed.
 
-## Future Role: Financial Coach Or Advisor
+## R-3: Informal Financial Guide
 
-A coach, counselor, or advisor who may use the app as a simple educational tool.
+An informal financial guide is a teacher, coach, mentor, or community helper using the calculator to explain basic savings planning. They can demonstrate how changing savings, income growth, price growth, or timelines affects the estimate. They must never present the app as a regulated advisory, investment, tax, debt, or exchange-rate tool.
 
-### Needs
+Distinct needs:
 
-- Help clients understand savings behavior.
-- Demonstrate how small monthly changes affect long-term outcomes.
-- Keep the experience simple enough for first-time planners.
-
-## MVP Access Model
-
-The MVP has no login, account roles, paid services, or stored user profiles. All inputs are entered locally in the browser.
+- Explain basic savings tradeoffs to first-time planners.
+- Use helper text and observable results as teaching aids.
+- Avoid implying that the app stores data, converts currencies, or provides professional advice.

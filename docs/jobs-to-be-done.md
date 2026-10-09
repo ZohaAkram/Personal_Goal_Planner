@@ -1,59 +1,43 @@
 # Jobs To Be Done
 
-## Job 1: Estimate When I Can Afford A Goal
+## J-1: Judge Goal Affordability
 
-When I am thinking about a major purchase or savings target, I want to choose my currency and enter my goal amount, savings, income, and spending so I can understand approximately when I can afford it.
+Role: R-1 Everyday Goal Planner
 
-### Features Supporting This Job
+When I am considering a personal purchase or savings target, I want to estimate whether my current money situation can get me there, so I can decide whether the goal is realistic.
 
-- Currency selector
-- Goal amount input
-- Current savings input
-- Monthly income and spending inputs
-- Estimated months-to-goal result
-- Estimated calendar month and year
-- Info helper explaining how the estimate is calculated
+## J-2: Discuss A Shared Household Goal
 
-## Job 2: Understand The Future Cost
+Role: R-2 Household Planning Partner
 
-When prices may rise over time, I want the app to estimate the future cost of my goal so I do not plan around today's price only.
+When my family or household is thinking about a shared expense, I want to turn rough income, spending, and savings assumptions into a simple estimate, so I can discuss the plan with others.
 
-### Features Supporting This Job
+## J-3: Understand Future Price Pressure
 
-- Inflation rate input
-- Suggested inflation default based on selected currency
-- Future cost at selected target timeline
-- Plain-language info helper explaining the inflation formula
+Role: R-1 Everyday Goal Planner
 
-## Job 3: Know Whether I Am On Track
+When prices may rise before I reach my goal, I want to account for yearly price increases, so I can avoid planning only around today's price.
 
-When I have a target timeline in mind, I want the app to tell me whether my current plan reaches the goal by then.
+## J-4: Check A Preferred Timeline
 
-### Features Supporting This Job
+Role: R-1 Everyday Goal Planner
 
-- Common target timeline dropdown, such as 6 months, 1 year, 1.5 years, 2 years, 3 years, and custom months
-- On-track status
-- Savings by selected target timeline
-- Shortfall calculation
+When I have a date or time period in mind, I want to know whether my current plan reaches the goal by then, so I can decide whether to keep or change the timeline.
 
-## Job 4: Find A Practical Way To Reach The Goal Sooner
+## J-5: Find The Monthly Gap
 
-When my current plan is too slow, I want to know how much extra I need to save, earn, or cut from expenses each month so I can decide what is realistic.
+Role: R-1 Everyday Goal Planner
 
-### Features Supporting This Job
+When my goal is not on track, I want to know the approximate monthly gap, so I can decide whether to save more, earn more, spend less, or choose a longer timeline.
 
-- Extra monthly savings recommendation
-- Extra monthly income recommendation
-- Monthly expense reduction recommendation
-- Interactive inputs that update results immediately
+## J-6: Explain Savings Planning
 
-## Job 5: Explore What-If Scenarios Without A Spreadsheet
+Role: R-3 Informal Financial Guide
 
-When I am comparing options, I want to adjust assumptions quickly and see the impact in plain language.
+When I am helping someone understand savings planning, I want to show how assumptions change the estimate, so I can explain the relationship between income, spending, inflation, and time.
 
-### Features Supporting This Job
+## J-7: Work In A Familiar Currency
 
-- Goal type dropdown with common presets and an Other option
-- Editable inputs
-- Real-time recalculation
-- Info helpers for key metrics
+Role: R-1 Everyday Goal Planner
+
+When I think about money in a specific currency, I want the estimate displayed in that currency, so the numbers feel familiar and easy to read.
