@@ -2,7 +2,7 @@
 
 ## S-1: Select A Currency
 
-Job: J-7
+Job: J-6
 
 Status: Implemented
 
@@ -152,8 +152,8 @@ As an everyday goal planner, I want to see how much money is left monthly, so th
 Acceptance criteria:
 
 - Given monthly income and monthly spending are entered, when the app calculates, then money left monthly equals monthly income minus monthly spending.
-- Given monthly spending is greater than monthly income, when the app calculates, then the underlying monthly surplus is negative.
-- Given a money result is formatted and the value is negative, when displayed through the currency formatter, then it appears as zero.
+- Given monthly spending is greater than monthly income, when the app validates the form, then it shows a field-level message instead of calculating a negative monthly surplus.
+- Given monthly income is equal to monthly spending, when the app calculates, then money left monthly equals zero.
 
 ## S-11: See Savings By Chosen Time
 
@@ -172,7 +172,7 @@ Acceptance criteria:
 
 ## S-12: See Monthly Gap Recommendations
 
-Job: J-5
+Job: J-2
 
 Status: Implemented
 
@@ -187,7 +187,7 @@ Acceptance criteria:
 
 ## S-13: Use Helper Text
 
-Job: J-6
+Job: J-5
 
 Status: Implemented
 
@@ -220,7 +220,7 @@ Acceptance criteria:
 
 ## S-15: Convert Currency Amounts Automatically
 
-Job: J-7
+Job: J-6
 
 Status: Not implemented
 
@@ -233,11 +233,11 @@ Acceptance criteria:
 
 ## S-16: Save Multiple Goals
 
-Job: J-2
+Job: J-7
 
 Status: Not implemented
 
-As a household planning partner, I want to save multiple goals, so that my household can compare them later.
+As a household planning partner, I want to save multiple goals, so that my household can compare plans later.
 
 Acceptance criteria:
 
@@ -246,7 +246,7 @@ Acceptance criteria:
 
 ## S-17: Provide Advanced Validation Rules
 
-Job: J-6
+Job: J-5
 
 Status: Not implemented
 
@@ -257,3 +257,18 @@ Acceptance criteria:
 - Given a user enters realistic-looking but financially unusual values, when the app validates the form, then it should explain why the values may need review.
 - Given monthly spending is equal to monthly income, when the app validates the form, then it should explain that the plan has no monthly leftover unless savings already cover the goal.
 - Given the current MVP, when spending is equal to income, then the app allows the input because the happy-flow assumption is income greater than or equal to spending.
+
+## S-18: Split Savings Across Goal Categories
+
+Job: J-7
+
+Status: Not implemented
+
+As a household planning partner, I want to divide my savings across multiple goal categories, so that I can plan for more than one priority at the same time.
+
+Acceptance criteria:
+
+- Given I have multiple goals, when I enter them, then the app should let me assign each goal to a category such as emergency fund, education, car, home, wedding, travel, or other.
+- Given I enter monthly savings, when multiple categories exist, then the app should let me allocate part of the savings to each category.
+- Given category allocations exist, when the app calculates, then it should show separate timelines and gaps for each category.
+- Given the current MVP, when I use the app, then only one active goal is calculated at a time and category-based savings planning is not available.

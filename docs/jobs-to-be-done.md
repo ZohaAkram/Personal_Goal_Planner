@@ -1,26 +1,43 @@
 # Jobs To Be Done
 
-## J-1: Plan a Savings Goal
-**Role:** R-1 Everyday Goal Planner
+## J-1: Check If I Can Afford A Goal
 
-When I want to save for something, I want to estimate how much I need to save, so I can plan for my goal.
+Role: R-1 Everyday Goal Planner
 
-## J-2: Check If My Goal Is Achievable
-**Role:** R-1 Everyday Goal Planner
+When I want to buy something important, I want to compare the price with my savings, income, and spending, so I can understand whether the goal is possible for me.
 
-When I have a savings target in mind, I want to estimate how long it will take to reach it, so I can set a realistic timeline.
+## J-2: Know How Much To Save Monthly
 
-## J-3: Account for Rising Prices
-**Role:** R-1 Everyday Goal Planner
+Role: R-1 Everyday Goal Planner
 
-When I plan to buy something in the future, I want to account for rising prices, so I can estimate how much it may cost by then.
+When my current plan is not enough, I want to know the monthly gap in simple terms, so I can decide whether to save more, earn more, spend less, or take more time.
 
-## J-4: Adjust My Savings Plan
-**Role:** R-1 Everyday Goal Planner
+## J-3: Plan For Future Price Changes
 
-When my current savings plan is not enough, I want to understand how changing my savings or timeline affects my goal, so I can make a more achievable plan.
+Role: R-1 Everyday Goal Planner
 
-## J-5: Understand My Financial Position
-**Role:** R-1 Everyday Goal Planner
+When prices may increase before I reach my goal, I want to include inflation in my estimate, so I can avoid planning only around today's price.
 
-When I plan my savings, I want to consider my income and expenses, so I can understand how much money I can put toward my goal.
+## J-4: Test A Timeline I Have In Mind
+
+Role: R-1 Everyday Goal Planner
+
+When I have a target like 6 months, 1 year, or 2 years, I want to check if my money plan reaches the goal by then, so I can adjust the timeline or my saving behavior.
+
+## J-5: Explain The Plan To Someone Else
+
+Role: R-3 Informal Financial Guide
+
+When I am helping someone understand a savings plan, I want the numbers and assumptions to be easy to explain, so they can trust what the estimate means and what it does not mean.
+
+## J-6: Use Money Terms I Understand
+
+Role: R-1 Everyday Goal Planner
+
+When I think about my money in a familiar currency, I want the estimate shown in that currency with plain labels, so the result feels easy to read.
+
+## J-7: Plan More Than One Goal
+
+Role: R-2 Household Planning Partner
+
+When my household has several goals at the same time, I want to split savings across categories such as emergency fund, education, car, and home, so we can plan priorities without mixing all goals together.
