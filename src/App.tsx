@@ -3,21 +3,37 @@ import { useMemo, useState } from "react";
 import { calculateGoal, currency, type CalculatorInput, type CurrencyOption } from "./lib/finance";
 
 const currencyOptions: CurrencyOption[] = [
-  { code: "PKR", label: "Pakistani rupee (PKR)", locale: "en-PK" },
-  { code: "USD", label: "US dollar (USD)", locale: "en-US" },
-  { code: "GBP", label: "British pound (GBP)", locale: "en-GB" },
-  { code: "EUR", label: "Euro (EUR)", locale: "en-IE" },
-  { code: "AED", label: "UAE dirham (AED)", locale: "en-AE" },
-  { code: "SAR", label: "Saudi riyal (SAR)", locale: "en-SA" },
-  { code: "INR", label: "Indian rupee (INR)", locale: "en-IN" },
-  { code: "BDT", label: "Bangladeshi taka (BDT)", locale: "en-BD" }
+  { code: "PKR", label: "Pakistani rupee (PKR)", locale: "en-PK", suggestedInflationRate: 10 },
+  { code: "USD", label: "US dollar (USD)", locale: "en-US", suggestedInflationRate: 3 },
+  { code: "GBP", label: "British pound (GBP)", locale: "en-GB", suggestedInflationRate: 3 },
+  { code: "EUR", label: "Euro (EUR)", locale: "en-IE", suggestedInflationRate: 2.5 },
+  { code: "AED", label: "UAE dirham (AED)", locale: "en-AE", suggestedInflationRate: 2 },
+  { code: "SAR", label: "Saudi riyal (SAR)", locale: "en-SA", suggestedInflationRate: 2 },
+  { code: "INR", label: "Indian rupee (INR)", locale: "en-IN", suggestedInflationRate: 5 },
+  { code: "BDT", label: "Bangladeshi taka (BDT)", locale: "en-BD", suggestedInflationRate: 7 }
 ];
 
 const goalOptions = [
-  { label: "Car", goalName: "Car", amount: 2500000 },
-  { label: "House down payment", goalName: "House down payment", amount: 3000000 },
-  { label: "Emergency fund", goalName: "Emergency fund", amount: 500000 },
-  { label: "Other", goalName: "", amount: 100000 }
+  {
+    label: "Car",
+    goalName: "Car",
+    amounts: { PKR: 2500000, USD: 25000, GBP: 20000, EUR: 23000, AED: 90000, SAR: 90000, INR: 900000, BDT: 1800000 }
+  },
+  {
+    label: "House down payment",
+    goalName: "House down payment",
+    amounts: { PKR: 3000000, USD: 60000, GBP: 45000, EUR: 50000, AED: 220000, SAR: 220000, INR: 2500000, BDT: 4000000 }
+  },
+  {
+    label: "Emergency fund",
+    goalName: "Emergency fund",
+    amounts: { PKR: 500000, USD: 5000, GBP: 4000, EUR: 4500, AED: 18000, SAR: 18000, INR: 200000, BDT: 350000 }
+  },
+  {
+    label: "Other",
+    goalName: "",
+    amounts: { PKR: 100000, USD: 1000, GBP: 800, EUR: 900, AED: 3500, SAR: 3500, INR: 80000, BDT: 100000 }
+  }
 ];
 
 const timelineOptions = [
@@ -68,8 +84,28 @@ export default function App() {
     setForm((current) => ({
       ...current,
       goalName: selectedGoal.goalName,
-      goalAmount: selectedGoal.amount
+      goalAmount: selectedGoal.amounts[selectedCurrency.code as keyof typeof selectedGoal.amounts]
     }));
+  }
+
+  function updateCurrency(code: string) {
+    const nextCurrency = currencyOptions.find((option) => option.code === code);
+    if (!nextCurrency) return;
+
+    setSelectedCurrency(nextCurrency);
+    setForm((current) => {
+      const selectedGoal = goalOptions.find((option) => option.label === goalType);
+      const nextGoalAmount =
+        selectedGoal && goalType !== "Other"
+          ? selectedGoal.amounts[nextCurrency.code as keyof typeof selectedGoal.amounts]
+          : current.goalAmount;
+
+      return {
+        ...current,
+        goalAmount: nextGoalAmount,
+        annualInflationRate: nextCurrency.suggestedInflationRate
+      };
+    });
   }
 
   function updateTimeline(value: string) {
@@ -124,10 +160,7 @@ export default function App() {
             />
             <select
               value={selectedCurrency.code}
-              onChange={(event) => {
-                const nextCurrency = currencyOptions.find((option) => option.code === event.target.value);
-                if (nextCurrency) setSelectedCurrency(nextCurrency);
-              }}
+              onChange={(event) => updateCurrency(event.target.value)}
             >
               {currencyOptions.map((option) => (
                 <option key={option.code} value={option.code}>
@@ -204,7 +237,10 @@ export default function App() {
               />
             </label>
             <label>
-              <FieldText label="Yearly price increase %" help="Expected yearly increase in prices. Pakistan inflation can change, so this is only an estimate." />
+              <FieldText
+                label="Yearly price increase %"
+                help={`Suggested starting point for ${selectedCurrency.code}: ${selectedCurrency.suggestedInflationRate}% per year. You can change it if prices in your area feel different.`}
+              />
               <input
                 inputMode="decimal"
                 value={form.annualInflationRate}

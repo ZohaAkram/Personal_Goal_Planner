@@ -10,7 +10,7 @@
 
 4. As a user, I want to include expected salary raises so the estimate can reflect future income growth.
 
-5. As a user, I want to include inflation so the app can show that the goal may cost more in the future.
+5. As a user, I want the app to suggest a yearly price increase based on my selected currency so the future price estimate starts from a reasonable assumption.
 
 6. As a user, I want to choose a simple target timeline like 1 year or 1.5 years so I can check whether my goal is realistic.
 

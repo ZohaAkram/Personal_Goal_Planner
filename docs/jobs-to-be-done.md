@@ -21,6 +21,7 @@ When prices may rise over time, I want the app to estimate the future cost of my
 ### Features Supporting This Job
 
 - Inflation rate input
+- Suggested inflation default based on selected currency
 - Future cost at selected target timeline
 - Plain-language info helper explaining the inflation formula
 
